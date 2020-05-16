@@ -8,6 +8,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using WastelessAPI.Application.Logic;
 using WastelessAPI.Application.Observer;
+using WastelessAPI.Commands;
 using WastelessAPI.DataAccess;
 using WastelessAPI.DataAccess.Interfaces;
 using WastelessAPI.DataAccess.Repositories;
@@ -42,11 +43,15 @@ namespace WastelessAPI
             services.AddTransient<GetGroceriesQuery>();
             services.AddTransient<GetNotificationQuery>();
             services.AddTransient<GetReportQuery>();
+            services.AddTransient<RegisterUserCommand>();
+            services.AddTransient<LoginUserCommand>();
 
             services.AddTransient<GetCharitiesHandler>();
             services.AddTransient<GetGroceriesHandler>();
             services.AddTransient<GetNotificationHandler>();
             services.AddTransient<GetReportHandler>();
+            services.AddTransient<RegisterUserHandler>();
+            services.AddTransient<LoginUserHandler>();
 
             services.AddDbContext<WastelessDbContext>(options => options.UseMySql(_config.GetConnectionString("WASTELESS_DB")));
             

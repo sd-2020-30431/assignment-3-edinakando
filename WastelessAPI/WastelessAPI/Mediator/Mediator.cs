@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using WastelessAPI.Commands;
 using WastelessAPI.Handlers;
 using WastelessAPI.Queries;
 
@@ -18,7 +19,10 @@ namespace WastelessAPI.Mediator
             {
                 { typeof(GetCharitiesQuery), typeof(GetCharitiesHandler) },
                 { typeof(GetGroceriesQuery), typeof(GetGroceriesHandler) },
-                { typeof(GetNotificationQuery), typeof(GetNotificationHandler) }
+                { typeof(GetNotificationQuery), typeof(GetNotificationHandler) },
+                { typeof(GetReportQuery), typeof(GetReportHandler) },
+                { typeof(RegisterUserCommand), typeof(RegisterUserHandler) },
+                { typeof(LoginUserCommand), typeof(LoginUserHandler) },
             };
         }
 
