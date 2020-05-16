@@ -35,9 +35,18 @@ namespace WastelessAPI
             services.AddTransient<GroceriesLogic>();
             services.AddTransient<CharitiesLogic>();
             services.AddTransient<PushNotificationObserver>();
+
             services.AddTransient<IMediator, Mediator.Mediator>();
+
             services.AddTransient<GetCharitiesQuery>();
+            services.AddTransient<GetGroceriesQuery>();
+            services.AddTransient<GetNotificationQuery>();
+            services.AddTransient<GetReportQuery>();
+
             services.AddTransient<GetCharitiesHandler>();
+            services.AddTransient<GetGroceriesHandler>();
+            services.AddTransient<GetNotificationHandler>();
+            services.AddTransient<GetReportHandler>();
 
             services.AddDbContext<WastelessDbContext>(options => options.UseMySql(_config.GetConnectionString("WASTELESS_DB")));
             

@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using WastelessAPI.Application.Factory;
 using WastelessAPI.Application.Models.Groceries;
 using WastelessAPI.Application.Models.Reports;
@@ -17,9 +18,9 @@ namespace WastelessAPI.Application.Logic
             _report = factory.CreateReport(context);
         }
 
-        public IList<GroceryItem> GetReport(Int32 userId)
+        public async Task<IList<GroceryItem>> GetReport(Int32 userId)
         {
-           return  _report.GetReport(userId);
+           return await _report.GetReport(userId);
         }
     }
 }
