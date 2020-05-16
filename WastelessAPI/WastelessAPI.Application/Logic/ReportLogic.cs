@@ -1,6 +1,7 @@
 ﻿
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using WastelessAPI.Application.Factory;
 using WastelessAPI.Application.Models.Groceries;
@@ -18,9 +19,10 @@ namespace WastelessAPI.Application.Logic
             _report = factory.CreateReport(context);
         }
 
-        public async Task<IList<GroceryItem>> GetReport(Int32 userId)
+        public async Task<IList<ColorDecorator>> GetReport(Int32 userId)
         {
-           return await _report.GetReport(userId);
+           var report = await _report.GetReport(userId);
+            return report.Select(r => new ColorDecorator(r)).ToList();
         }
     }
 }

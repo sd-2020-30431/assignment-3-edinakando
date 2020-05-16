@@ -16,18 +16,28 @@ namespace WastelessAPI.DataAccess.Repositories
             _context = context;
         }
 
-        public async Task<IList<GroceryItem>> GetWeeklyReport(Int32 userId)
+        public async Task<IList<ReportDto>> GetWeeklyReport(Int32 userId)
         {
             var groceryItems = await _GetUserGroceries(userId);
-            return groceryItems.Where(item => _IsWaste(item) && _IsFromCurrentWeek(item.ExpirationDate))
+            return groceryItems.Where(item => _IsFromCurrentWeek(item.ExpirationDate))
+                            .Select(item => new ReportDto
+                            {
+                                Grocery = item,
+                                IsWaste = _IsWaste(item)
+                            })
                             .ToList();
         }
 
-        public async Task<IList<GroceryItem>> GetMonthlyReport(Int32 userId)
+        public async Task<IList<ReportDto>> GetMonthlyReport(Int32 userId)
         {
             var groceryItems = await _GetUserGroceries(userId);
-            return groceryItems.Where(item => _IsWaste(item) && _IsFromCurrentMonth(item.ExpirationDate))
-                            .ToList();
+            return groceryItems.Where(item => _IsFromCurrentMonth(item.ExpirationDate))
+                              .Select(item => new ReportDto
+                              {
+                                  Grocery = item,
+                                  IsWaste = _IsWaste(item)
+                              })
+                              .ToList();
         }
 
         private Boolean _IsFromCurrentWeek(DateTime date)
@@ -50,7 +60,7 @@ namespace WastelessAPI.DataAccess.Repositories
 
         private Boolean _IsWaste(GroceryItem grocery)
         {
-            return grocery.ConsumptionDate == DateTime.MinValue && grocery.ExpirationDate < DateTime.Now;
+            return (grocery.ConsumptionDate == null || grocery.ConsumptionDate == DateTime.MinValue) && grocery.ExpirationDate < DateTime.Now;
         }
 
         private async Task<IList<GroceryItem>> _GetUserGroceries(Int32 userId)

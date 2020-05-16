@@ -7,5 +7,6 @@ namespace WastelessAPI.DataAccess.Models
         public Int32 Id { get; set; }
         public String Email { get; set; }
         public String Password { get; set; }
+        public Boolean NotifyWaste { get; set; }
     }
 }

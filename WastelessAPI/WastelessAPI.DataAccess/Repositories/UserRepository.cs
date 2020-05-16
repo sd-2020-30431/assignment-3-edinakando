@@ -37,5 +37,19 @@ namespace WastelessAPI.DataAccess.Repositories
         {
             return await _context.Users.ToListAsync();
         }
+
+        public async Task AddUserNotification(int userId)
+        {
+            var user = await _context.Users.FirstAsync(u => u.Id == userId);
+            user.NotifyWaste = true;
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task RemoveUserNotification(int userId)
+        {
+            var user = await _context.Users.FirstAsync(u => u.Id == userId);
+            user.NotifyWaste = false;
+            await _context.SaveChangesAsync();
+        }
     }
 }

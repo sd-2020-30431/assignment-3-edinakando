@@ -44,8 +44,9 @@ namespace WastelessAPI.Application.Scheduler
             }
         }
 
-        private void _SendNotification(Int32 userId, Double waste)
+        private async Task _SendNotification(Int32 userId, Double waste)
         {
+            await _userRepository.AddUserNotification(userId);
         }
     }
 }
