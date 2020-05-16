@@ -11,6 +11,9 @@ using WastelessAPI.Application.Observer;
 using WastelessAPI.DataAccess;
 using WastelessAPI.DataAccess.Interfaces;
 using WastelessAPI.DataAccess.Repositories;
+using WastelessAPI.Handlers;
+using WastelessAPI.Mediator;
+using WastelessAPI.Queries;
 
 namespace WastelessAPI
 {
@@ -32,6 +35,9 @@ namespace WastelessAPI
             services.AddTransient<GroceriesLogic>();
             services.AddTransient<CharitiesLogic>();
             services.AddTransient<PushNotificationObserver>();
+            services.AddTransient<IMediator, Mediator.Mediator>();
+            services.AddTransient<GetCharitiesQuery>();
+            services.AddTransient<GetCharitiesHandler>();
 
             services.AddDbContext<WastelessDbContext>(options => options.UseMySql(_config.GetConnectionString("WASTELESS_DB")));
             

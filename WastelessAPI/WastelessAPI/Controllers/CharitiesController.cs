@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System;
-using WastelessAPI.Application.Logic;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 using WastelessAPI.DataAccess.Models;
+using WastelessAPI.Mediator;
+using WastelessAPI.Queries;
 
 namespace WastelessAPI.Controllers
 {
@@ -9,25 +11,25 @@ namespace WastelessAPI.Controllers
     [ApiController]
     public class CharitiesController : ControllerBase
     {
-        private CharitiesLogic _charitiesLogic;
+        private IMediator _mediator;
 
-        public CharitiesController(CharitiesLogic charitiesLogic)
+        public CharitiesController(IMediator mediator)
         {
-            _charitiesLogic = charitiesLogic;
+            _mediator = mediator;
         }
 
         [HttpGet]
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return new JsonResult(_charitiesLogic.GetCharities());
+            return new JsonResult(await _mediator.Handle<GetCharitiesQuery, IList<Charity>>(new GetCharitiesQuery()));
         }
 
-        [HttpPost]
-        [Route("donate")]
-        public IActionResult Donate([FromBody]Donation donation)
-        {
-            _charitiesLogic.Donate(donation);
-            return Ok();
-        }
+        //[HttpPost]
+        //[Route("donate")]
+        //public IActionResult Donate([FromBody]Donation donation)
+        //{
+        //    _charitiesLogic.Donate(donation);
+        //    return Ok();
+        //}
     }
 }

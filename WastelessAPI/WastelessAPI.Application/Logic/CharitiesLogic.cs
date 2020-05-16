@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using WastelessAPI.DataAccess.Interfaces;
 using WastelessAPI.DataAccess.Models;
 using WastelessAPI.DataAccess.Repositories;
@@ -17,9 +18,9 @@ namespace WastelessAPI.Application.Logic
             _groceriesRepository = groceriesRepository;
         }
 
-        public IList<Charity> GetCharities()
+        public async Task<IList<Charity>> GetCharities()
         {
-            return _charitiesRepository.GetAll();
+            return await _charitiesRepository.GetAll();
         }
 
         public void Donate(Donation donation)

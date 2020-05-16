@@ -1,6 +1,6 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
-using System.Linq;
+using System.Threading.Tasks;
 using WastelessAPI.DataAccess.Models;
 
 namespace WastelessAPI.DataAccess.Repositories
@@ -13,9 +13,9 @@ namespace WastelessAPI.DataAccess.Repositories
             _context = context;
         }
 
-        public IList<Charity> GetAll()
+        public async Task<IList<Charity>> GetAll()
         {
-            return _context.Charities.ToList();
+            return await _context.Charities.ToListAsync();
         }
 
         public void Donate(Donation donation)
