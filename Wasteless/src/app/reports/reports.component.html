@@ -21,8 +21,8 @@
         <th>Expiration Date</th>
     </tr>
 
-    <tr *ngFor="let item of reportItems">
-        <td ng-class='{red : item.color == 0, green: item.color == 1}'>{{item.grocery.name}}</td>
+    <tr *ngFor="let item of reportItems" [ngClass]="{'red' : item.color == 0,'green' : item.color == 1}">
+        <td>{{item.grocery.name}}</td>
         <td>{{item.grocery.quantity}}</td>
         <td>{{item.grocery.calories}}</td>
         <td>{{item.grocery.purchaseDate | date : 'longDate'}}</td>
