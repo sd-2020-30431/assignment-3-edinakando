@@ -12,9 +12,9 @@ namespace WastelessAPI.Application.UnitTests.Logic
     public class GroceriesLogicTests
     {
         [Test]
-        public void GetGroceriesShouldReturnMappedListOfGroceries()
+        public async void GetGroceriesShouldReturnMappedListOfGroceries()
         {
-            //Arrange 
+            //Arrange
             var groceriesRepositoryMock = new Mock<IGroceriesRepository>();
             int userId = 1;
             var groceries = new List<DataAccess.Models.Groceries>()
@@ -68,11 +68,11 @@ namespace WastelessAPI.Application.UnitTests.Logic
                  }
             };
 
-            groceriesRepositoryMock.Setup(m => m.GetGroceries(userId)).Returns(groceries);
+            groceriesRepositoryMock.Setup(m => m.GetGroceries(userId)).ReturnsAsync(groceries);
             var groceriesLogic = new GroceriesLogic(groceriesRepositoryMock.Object);
 
             //Act
-            var groceriesActual = groceriesLogic.GetGroceries(userId);
+            var groceriesActual = await groceriesLogic.GetGroceries(userId);
 
             //Assert
             Assert.IsTrue(groceriesExpected.SequenceEqual(groceriesActual, new GroceriesModelComparer()));
