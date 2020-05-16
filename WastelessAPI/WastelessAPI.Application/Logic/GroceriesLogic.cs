@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using WastelessAPI.Application.Models.Groceries;
 using WastelessAPI.DataAccess.Interfaces;
 
@@ -47,9 +48,9 @@ namespace WastelessAPI.Application.Logic
             }).ToList());
         }
 
-        public IList<GroceryItem> GetExpirationNotification(int userId)
+        public async Task<IList<GroceryItem>> GetExpirationNotification(int userId)
         {
-            return _groceriesRepository.GetUserNotifications(userId)?.Select(item => new GroceryItem
+            return (await _groceriesRepository.GetUserNotifications(userId))?.Select(item => new GroceryItem
             {
                 Name = item.Name,
                 Quantity = item.Quantity,
@@ -60,9 +61,9 @@ namespace WastelessAPI.Application.Logic
             }).ToList();
         }
 
-        public IList<Groceries> GetGroceries(int userId)
+        public async Task<IList<Groceries>> GetGroceries(int userId)
         {
-            IList<DataAccess.Models.Groceries> groceries = _groceriesRepository.GetGroceries(userId);
+            IList<DataAccess.Models.Groceries> groceries = await _groceriesRepository.GetGroceries(userId);
 
             return groceries.Select(list => new Groceries
             {

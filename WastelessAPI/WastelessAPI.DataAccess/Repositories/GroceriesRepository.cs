@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using WastelessAPI.DataAccess.Interfaces;
 using WastelessAPI.DataAccess.Models;
 
@@ -32,11 +33,11 @@ namespace WastelessAPI.DataAccess.Repositories
                                         .ToList();
         }
 
-        public IList<Groceries> GetGroceries(Int32 userId)
+        public async Task<IList<Groceries>> GetGroceries(Int32 userId)
         {
-            return _context.GroceryLists
+            return await _context.GroceryLists
                              .Include(list => list.Items)
-                             .Where(list => list.UserId == userId).ToList();
+                             .Where(list => list.UserId == userId).ToListAsync();
         }
 
         public void Consume(int itemId)
@@ -55,9 +56,9 @@ namespace WastelessAPI.DataAccess.Repositories
             _context.SaveChanges();
         }
 
-        public IList<GroceryItem> GetUserNotifications(int userId)
+        public async Task<IList<GroceryItem>> GetUserNotifications(int userId)
         {
-            var groceries = GetGroceries(userId);
+            var groceries = await GetGroceries(userId);
             var items = new List<GroceryItem>();
 
             foreach (var grocery in groceries)

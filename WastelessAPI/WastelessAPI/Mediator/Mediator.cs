@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using WastelessAPI.Handlers;
@@ -11,11 +10,16 @@ namespace WastelessAPI.Mediator
     {
         private readonly Dictionary<Type, Type> _handlerMap;
         private IServiceProvider _serviceProvider;
+
         public Mediator(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            _handlerMap = new Dictionary<Type, Type>{
-            { typeof(GetCharitiesQuery), typeof(GetCharitiesHandler)} };
+            _handlerMap = new Dictionary<Type, Type>
+            {
+                { typeof(GetCharitiesQuery), typeof(GetCharitiesHandler) },
+                { typeof(GetGroceriesQuery), typeof(GetGroceriesHandler) },
+                { typeof(GetNotificationQuery), typeof(GetNotificationHandler) }
+            };
         }
 
         public Task<TResponse> Handle<TRequest, TResponse>(TRequest request) where TRequest : IRequest<TResponse>

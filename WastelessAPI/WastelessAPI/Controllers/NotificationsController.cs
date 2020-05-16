@@ -1,26 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System;
-using WastelessAPI.Application.Logic;
-
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+using System.Collections.Generic;
+using System.Threading.Tasks;
+using WastelessAPI.Application.Models.Groceries;
+using WastelessAPI.Mediator;
+using WastelessAPI.Queries;
 
 namespace WastelessAPI.Controllers
 {
     [Route("api/[controller]")]
     public class NotificationsController : Controller
     {
-        private GroceriesLogic _groceriesLogic;
+        private IMediator _mediator;
 
-        public NotificationsController(GroceriesLogic groceriesLogic)
+        public NotificationsController(IMediator mediator)
         {
-            _groceriesLogic = groceriesLogic;
+            _mediator = mediator;
         }
 
         [Route("Expiration")]
         [HttpGet]
-        public IActionResult GetExpirationNotification(Int32 userId)
+        public async Task<IActionResult> GetExpirationNotification(Int32 userId)
         {
-            return new JsonResult(_groceriesLogic.GetExpirationNotification(userId));
+            return new JsonResult(await _mediator.Handle<GetNotificationQuery, IList<GroceryItem>>(new GetNotificationQuery { UserId = userId }));
         }
     }
 }
