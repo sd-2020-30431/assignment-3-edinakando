@@ -45,6 +45,9 @@ namespace WastelessAPI
             services.AddTransient<GetReportQuery>();
             services.AddTransient<RegisterUserCommand>();
             services.AddTransient<LoginUserCommand>();
+            services.AddTransient<DonateCommand>();
+            services.AddTransient<SaveGroceriesCommand>();
+            services.AddTransient<EditGroceryCommand>();
 
             services.AddTransient<GetCharitiesHandler>();
             services.AddTransient<GetGroceriesHandler>();
@@ -52,6 +55,9 @@ namespace WastelessAPI
             services.AddTransient<GetReportHandler>();
             services.AddTransient<RegisterUserHandler>();
             services.AddTransient<LoginUserHandler>();
+            services.AddTransient<DonateHandler>();
+            services.AddTransient<SaveGroceriesCommand>();
+            services.AddTransient<EditGroceryCommand>();
 
             services.AddDbContext<WastelessDbContext>(options => options.UseMySql(_config.GetConnectionString("WASTELESS_DB")));
             

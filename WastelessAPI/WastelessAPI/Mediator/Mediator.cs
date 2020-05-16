@@ -23,6 +23,9 @@ namespace WastelessAPI.Mediator
                 { typeof(GetReportQuery), typeof(GetReportHandler) },
                 { typeof(RegisterUserCommand), typeof(RegisterUserHandler) },
                 { typeof(LoginUserCommand), typeof(LoginUserHandler) },
+                { typeof(DonateCommand), typeof(DonateHandler) },
+                { typeof(SaveGroceriesCommand), typeof(SaveGroceriesHandler) },
+                { typeof(EditGroceryCommand), typeof(EditGroceryHandler) },
             };
         }
 
