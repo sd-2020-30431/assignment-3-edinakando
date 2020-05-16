@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { AuthService } from '../services/auth.service';
 import { ReportsService } from '../services/reports.service';
-import { GroceryItem } from '../models/groceryItem';
+import { ReportItem } from '../models/reportItem';
 
 @Component({
     selector: 'reports',
@@ -10,7 +10,8 @@ import { GroceryItem } from '../models/groceryItem';
 })
 
 export class ReportsComponent {
-    reportItems: GroceryItem[];
+    reportItems: ReportItem[];
+    colors: ['red', 'green'];
 
     constructor(private authService: AuthService,
                 private reportsService: ReportsService) { }
@@ -32,6 +33,7 @@ export class ReportsComponent {
     }
 
     setReport(res){
+        console.log(res);
         this.reportItems = res;
     }
 }
