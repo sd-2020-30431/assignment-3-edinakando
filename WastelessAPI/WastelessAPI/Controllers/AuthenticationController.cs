@@ -5,6 +5,7 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using System.Threading.Tasks;
 using WastelessAPI.Application.Logic;
 using WastelessAPI.DataAccess.Models;
 
@@ -24,9 +25,9 @@ namespace WastelessAPI.Controllers
 
         [HttpPost]
         [Route("Register")]
-        public IActionResult Register([FromBody]User user)
+        public async Task<IActionResult> Register([FromBody]User user)
         {
-            User newUser = _userLogic.InsertNewUser(user);
+            User newUser = await _userLogic.InsertNewUser(user);
             if (newUser == null)
             {
                 return BadRequest();
@@ -37,9 +38,9 @@ namespace WastelessAPI.Controllers
 
         [HttpPost]
         [Route("Login")]
-        public IActionResult Login([FromBody]User user)
+        public async Task<IActionResult> Login([FromBody]User user)
         {
-            User validUser = _userLogic.GetValidUser(user);
+            User validUser = await _userLogic.GetValidUser(user);
             if (validUser != null)
             {
                 var loginToken = GenerateJSONWebToken(user.Email);

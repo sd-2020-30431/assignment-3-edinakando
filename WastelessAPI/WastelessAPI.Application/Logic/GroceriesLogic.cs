@@ -16,9 +16,9 @@ namespace WastelessAPI.Application.Logic
             _groceriesRepository = groceriesRepository;
         }
 
-        public void Save(Groceries groceries)
+        public async Task Save(Groceries groceries)
         {
-            _groceriesRepository.Save(new DataAccess.Models.Groceries
+            await _groceriesRepository.Save(new DataAccess.Models.Groceries
             {
                 Name = groceries.Name,
                 Items = groceries.Items.Select(item =>
@@ -31,13 +31,12 @@ namespace WastelessAPI.Application.Logic
                         ExpirationDate = item.ExpirationDate,
                         ConsumptionDate = item.ConsumptionDate
                     }).ToList()
-            }); ;
-
+            });
         }
 
-        public void Edit(IList<GroceryItem> groceries)
+        public async Task Edit(IList<GroceryItem> groceries)
         {
-            _groceriesRepository.Edit(groceries.Select(item => new DataAccess.Models.GroceryItem {
+            await _groceriesRepository.Edit(groceries.Select(item => new DataAccess.Models.GroceryItem {
                 Id = item.Id,
                 Name = item.Name,
                 Quantity = item.Quantity,

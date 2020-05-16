@@ -7,12 +7,12 @@ namespace WastelessAPI.DataAccess.Interfaces
 {
     public interface IGroceriesRepository
     {
-        public void Save(Groceries groceries);
-        public IList<GroceryItem> GetUserItemsExpiringInNearFuture(Int32 userId);
-        public Task<IList<Groceries>> GetGroceries(Int32 userId);
-        public void Consume(int itemId);
-        void UpdateNotification(int itemId);
+        Task Save(Groceries groceries);
+        Task<IList<GroceryItem>> GetUserItemsExpiringInNearFuture(Int32 userId);
+        Task<IList<Groceries>> GetGroceries(Int32 userId);
+        Task Consume(int itemId);
+        Task UpdateNotification(int itemId);
         Task<IList<GroceryItem>> GetUserNotifications(int userId);
-        void Edit(IList<GroceryItem> groceries);
+        Task Edit(IList<GroceryItem> groceries);
     }
 }

@@ -19,15 +19,15 @@ namespace WastelessAPI.Application.Scheduler
             _groceriesRepository = groceriesRepository;
         }
 
-        public Task Invoke()
+        public async Task Invoke()
         {
-            IList<User> users = _userRepository.GetUsers();
+            IList<User> users = await _userRepository.GetUsers();
             Int32 RECOMMENDED_CALLORIES_PER_DAY = 2000;
             Int32 MAX_WASTE_ALLOWED = 200;
 
             foreach(var user in users)
             {
-                IList<GroceryItem> itemsToExpire = _groceriesRepository.GetUserItemsExpiringInNearFuture(user.Id);
+                IList<GroceryItem> itemsToExpire = await _groceriesRepository.GetUserItemsExpiringInNearFuture(user.Id);
                 Double idealCaloriesPerDay = 0;
                 
                 foreach(var item in itemsToExpire)
@@ -42,13 +42,10 @@ namespace WastelessAPI.Application.Scheduler
                     _SendNotification(user.Id, waste);
                 }
             }
-
-            return Task.CompletedTask;
         }
 
         private void _SendNotification(Int32 userId, Double waste)
         {
-            //TODO
         }
     }
 }

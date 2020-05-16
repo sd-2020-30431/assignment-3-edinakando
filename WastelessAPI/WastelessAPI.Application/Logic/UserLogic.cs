@@ -1,4 +1,4 @@
-﻿using System;
+﻿using System.Threading.Tasks;
 using WastelessAPI.Application.Shared;
 using WastelessAPI.DataAccess.Models;
 using WastelessAPI.DataAccess.Repositories;
@@ -14,26 +14,21 @@ namespace WastelessAPI.Application.Logic
             _userRepository = userRepository;
         }
 
-        public User InsertNewUser(User user)
+        public async Task<User> InsertNewUser(User user)
         {
-            if (IsDuplicateUser(user))
+            if (await _userRepository.IsDuplicateUser(user))
             {
                 return null;
             }
 
             user.Password = HashingSHA.GenerateSHA256String(user.Password);
-            return _userRepository.AddUser(user);
+            return await _userRepository.AddUser(user);
         }
 
-        Boolean IsDuplicateUser(User user)
-        {
-            return _userRepository.IsDuplicateUser(user);
-        }
-
-        public User GetValidUser(User user)
+        public async Task<User> GetValidUser(User user)
         {
             user.Password = HashingSHA.GenerateSHA256String(user.Password);
-            return _userRepository.GetValidUser(user);
+            return await _userRepository.GetValidUser(user);
         }
     }
 }

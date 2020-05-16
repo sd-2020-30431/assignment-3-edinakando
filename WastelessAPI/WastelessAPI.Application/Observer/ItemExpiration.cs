@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using WastelessAPI.DataAccess.Interfaces;
 using WastelessAPI.DataAccess.Models;
 using WastelessAPI.DataAccess.Repositories;
@@ -17,14 +18,14 @@ namespace WastelessAPI.Application.Observer
             _groceriesRepository = groceriesRepository;
         }
 
-        public void CheckExpirationDates()
+        public async Task CheckExpirationDates()
         {
-            IList<User> users = _userRepository.GetUsers();
+            IList<User> users = await _userRepository.GetUsers();
             Int32 DAYS_BEFORE_EXPIRATION = 5;
 
             foreach (var user in users)
             {
-                var itemsToExpire = _groceriesRepository.GetUserItemsExpiringInNearFuture(user.Id);
+                var itemsToExpire = await _groceriesRepository.GetUserItemsExpiringInNearFuture(user.Id);
 
                 foreach(var item in itemsToExpire)
                 {

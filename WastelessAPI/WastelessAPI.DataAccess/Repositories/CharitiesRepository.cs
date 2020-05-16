@@ -8,6 +8,7 @@ namespace WastelessAPI.DataAccess.Repositories
     public class CharitiesRepository
     {
         private readonly WastelessDbContext _context;
+
         public CharitiesRepository(WastelessDbContext context)
         {
             _context = context;
@@ -18,10 +19,10 @@ namespace WastelessAPI.DataAccess.Repositories
             return await _context.Charities.ToListAsync();
         }
 
-        public void Donate(Donation donation)
+        public async Task Donate(Donation donation)
         {
             _context.Donations.Add(donation);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

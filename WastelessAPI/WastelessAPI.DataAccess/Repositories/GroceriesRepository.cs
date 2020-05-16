@@ -17,20 +17,20 @@ namespace WastelessAPI.DataAccess.Repositories
             _context = context;
         }
 
-        public void Save(Groceries groceries)
+        public async Task Save(Groceries groceries)
         {
             _context.GroceryLists.Add(groceries);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public IList<GroceryItem> GetUserItemsExpiringInNearFuture(Int32 userId)
+        public async Task<IList<GroceryItem>> GetUserItemsExpiringInNearFuture(Int32 userId)
         {
             Int32 MAX_DAYS_TILL_EXPIRATION = 5;
-            return _context.GroceryItems.Where(item => item.GroceryList.UserId == userId && 
+            return await _context.GroceryItems.Where(item => item.GroceryList.UserId == userId && 
                                                         item.ConsumptionDate == DateTime.MinValue &&
                                                         item.ExpirationDate > DateTime.Now &&
                                                         item.ExpirationDate < DateTime.Now.AddDays(MAX_DAYS_TILL_EXPIRATION))
-                                        .ToList();
+                                        .ToListAsync();
         }
 
         public async Task<IList<Groceries>> GetGroceries(Int32 userId)
@@ -40,20 +40,20 @@ namespace WastelessAPI.DataAccess.Repositories
                              .Where(list => list.UserId == userId).ToListAsync();
         }
 
-        public void Consume(int itemId)
+        public async Task Consume(int itemId)
         {
-            var item = _context.GroceryItems.Where(item => item.Id == itemId).FirstOrDefault();
+            var item = await _context.GroceryItems.Where(item => item.Id == itemId).FirstOrDefaultAsync();
             item.ConsumptionDate = DateTime.Now;
             _context.Update(item);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
-        public void UpdateNotification(int itemId)
+        public async Task UpdateNotification(int itemId)
         {
-            var item = _context.GroceryItems.Where(item => item.Id == itemId).First();
+            var item = await _context.GroceryItems.Where(item => item.Id == itemId).FirstAsync();
             item.NotifyExpiration = true;
             _context.Update(item);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
 
         public async Task<IList<GroceryItem>> GetUserNotifications(int userId)
@@ -67,11 +67,11 @@ namespace WastelessAPI.DataAccess.Repositories
             return items;
         }
 
-        public void Edit(IList<GroceryItem> groceries)
+        public async Task Edit(IList<GroceryItem> groceries)
         {
             foreach (var item in groceries)
                 _context.Update(item);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
         }
     }
 }

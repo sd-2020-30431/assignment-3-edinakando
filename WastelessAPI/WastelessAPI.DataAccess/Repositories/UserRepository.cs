@@ -1,6 +1,8 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using WastelessAPI.DataAccess.Models;
 
 namespace WastelessAPI.DataAccess.Repositories
@@ -14,26 +16,26 @@ namespace WastelessAPI.DataAccess.Repositories
             _context = context;
         }
 
-        public User AddUser(User user)
+        public async Task<User> AddUser(User user)
         {
             _context.Users.Add(user);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return user;
         }
 
-        public Boolean IsDuplicateUser(User user)
+        public async Task<Boolean> IsDuplicateUser(User user)
         {
-            return _context.Users.Where(dbUser => dbUser.Email == user.Email).Any();
+            return await _context.Users.Where(dbUser => dbUser.Email == user.Email).AnyAsync();
         }
 
-        public User GetValidUser(User user)
+        public async Task<User> GetValidUser(User user)
         {
-            return _context.Users.Where(dbUser => dbUser.Email == user.Email && dbUser.Password == user.Password).FirstOrDefault();
+            return await _context.Users.Where(dbUser => dbUser.Email == user.Email && dbUser.Password == user.Password).FirstOrDefaultAsync();
         }
 
-        public IList<User> GetUsers()
+        public async Task<IList<User>> GetUsers()
         {
-            return _context.Users.ToList();
+            return await _context.Users.ToListAsync();
         }
     }
 }
